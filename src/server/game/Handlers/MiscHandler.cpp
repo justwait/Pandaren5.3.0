@@ -958,8 +958,9 @@ void WorldSession::HandleUpdateAccountData(WorldPacket& recvData)
 {
     TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_UPDATE_ACCOUNT_DATA");
 
-    uint32 type, timestamp, decompressedSize;
-    recvData >> type >> timestamp >> decompressedSize;
+    uint32 timestamp, type, decompressedSize;
+    recvData >> timestamp >> decompressedSize;
+    recvData.WriteBits(type, 3);
 
     TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "UAD: type %u, time %u, decompressedSize %u", type, timestamp, decompressedSize);
 
@@ -1018,8 +1019,56 @@ void WorldSession::HandleRequestAccountData(WorldPacket& recvData)
 
     TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "RAD: type %u", type);
 
-    if (type >= NUM_ACCOUNT_DATA_TYPES)
+    if (type > NUM_ACCOUNT_DATA_TYPES)
         return;
+    /*uint8 unk1, unk2, unk3, unk4, unk5;
+    uint16 unk6, unk7, unk8, unk9, unk10;
+    uint32 counter = recvData.ReadBits(19);
+
+    for (uint32 i = 0; i < counter; ++i)
+    {
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBits(7);
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+        recvData.ReadBit();
+    }
+
+    for (uint32 i = 0; i < counter; ++i)
+    {
+        recvData >> unk1;
+        recvData >> unk2;
+        recvData >> unk6;
+        recvData.ReadString(7);
+        recvData >> unk3;
+        recvData >> unk4;
+        recvData >> unk7;
+        recvData >> unk8;
+        recvData >> unk9;
+        recvData >> unk5;
+        recvData >> unk10;
+    }*/
 
     AccountData* adata = GetAccountData(AccountDataType(type));
 
@@ -1039,11 +1088,32 @@ void WorldSession::HandleRequestAccountData(WorldPacket& recvData)
     dest.resize(destSize);
 
     WorldPacket data(SMSG_UPDATE_ACCOUNT_DATA, 8+4+4+4+destSize);
-    data << uint64(_player ? _player->GetGUID() : 0);       // player guid
-    data << uint32(type);                                   // type (0-7)
-    data << uint32(adata->Time);                            // unix time
+
+    ObjectGuid guid;
+
     data << uint32(size);                                   // decompressed length
-    data.append(dest);                                      // compressed data
+    data << uint32(destSize);
+    data.append(dest);  
+    data << uint32(adata->Time);                            // unix time
+    data.WriteBit(guid[7]);
+    data.WriteBits(type, 3);                                 // type (0-7)
+    data.WriteBit(guid[3]);
+    data.WriteBit(guid[6]);
+    data.WriteBit(guid[1]);
+    data.WriteBit(guid[5]);
+    data.WriteBit(guid[0]);
+    data.WriteBit(guid[4]);
+    data.WriteBit(guid[2]);
+
+    data.WriteByteSeq(guid[6]);
+    data.WriteByteSeq(guid[7]);
+    data.WriteByteSeq(guid[4]);
+    data.WriteByteSeq(guid[1]);
+    data.WriteByteSeq(guid[5]);
+    data.WriteByteSeq(guid[0]);
+    data.WriteByteSeq(guid[3]);
+    data.WriteByteSeq(guid[2]);
+
     SendPacket(&data);
 }
 

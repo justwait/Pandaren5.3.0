@@ -35,7 +35,7 @@ enum Opcodes
 
     CMSG_ACCEPT_LEVEL_GRANT                           = 0x0205,
     CMSG_ACCEPT_TRADE                                 = 0x7110,
-    CMSG_NAME_QUERY                                   = 0x0018,
+    CMSG_NAME_QUERY                                   = 0x0018, // 17128
     CMSG_REALM_QUERY                                  = 0x0209,
     CMSG_ACTIVATETAXI                                 = 0x6E06,
     CMSG_ACTIVATETAXIEXPRESS                          = 0x0515,
@@ -458,7 +458,7 @@ enum Opcodes
     CMSG_REPLACE_ACCOUNT_DATA                         = 0x0000,
     CMSG_REPOP_REQUEST                                = 0x6235,
     CMSG_REPORT_PVP_AFK                               = 0x6734,
-    CMSG_REQUEST_ACCOUNT_DATA                         = 0x6505,
+    CMSG_REQUEST_ACCOUNT_DATA                         = 0x0A82, // 17128
     CMSG_REQUEST_CATEGORY_COOLDOWNS                   = 0x7102,
     CMSG_REQUEST_CEMETERY_LIST                        = 0x720A,
     CMSG_REQUEST_HOTFIX                               = 0x2401,
@@ -564,7 +564,7 @@ enum Opcodes
     CMSG_UNLEARN_SKILL                                = 0x6106,
     CMSG_UNLEARN_SPECIALIZATION                       = 0x3210,
     CMSG_UNREGISTER_ALL_ADDON_PREFIXES                = 0x3D54,
-    CMSG_UPDATE_ACCOUNT_DATA                          = 0x4736,
+    CMSG_UPDATE_ACCOUNT_DATA                          = 0x0800, // 17128
     CMSG_UPDATE_MISSILE_TRAJECTORY                    = 0x781E,
     CMSG_UPDATE_PROJECTILE_POSITION                   = 0x0E24,
     CMSG_USED_FOLLOW                                  = 0x7912,
@@ -984,7 +984,7 @@ enum Opcodes
     SMSG_INITIALIZE_FACTIONS                          = 0x0598, // 17128
     SMSG_INITIAL_SPELLS                               = 0x173F, // 17128
     SMSG_INIT_CURRENCY                                = 0x15A5,
-    SMSG_INIT_WORLD_STATES                            = 0x4C15,
+    SMSG_INIT_WORLD_STATES                            = 0x0FDC, // 17128
     SMSG_INSPECT                                      = 0x0000,
     SMSG_INSPECT_HONOR_STATS                          = 0x109C, // 17128
     SMSG_INSPECT_RATED_BG_STATS                       = 0x1498, // 17128
@@ -1042,7 +1042,7 @@ enum Opcodes
     SMSG_LIST_INVENTORY                               = 0x7CB0,
     SMSG_LOAD_CUF_PROFILES                            = 0x09CC, // 17128
     SMSG_LOGIN_SETTIMESPEED                           = 0x0C8D, // 17128
-    SMSG_LOGIN_VERIFY_WORLD                           = 0x0B6C, // 17128
+    SMSG_LOGIN_VERIFY_WORLD                           = 0x0434, // 17128
     SMSG_LOGOUT_CANCEL_ACK                            = 0x05D5, // 17128
     SMSG_LOGOUT_COMPLETE                              = 0x15C9, // 17128
     SMSG_LOGOUT_RESPONSE                              = 0x14D5, // 17128
@@ -1375,7 +1375,7 @@ enum Opcodes
     SMSG_UNIT_HEALTH_FREQUENT                         = 0x2C26,
     SMSG_UNIT_SPELLCAST_START                         = 0x2517,
     SMSG_UPDATE_ACCOUNT_DATA                          = 0x0684, // 17128
-    SMSG_UPDATE_ACCOUNT_DATA_COMPLETE                 = 0x0548,
+    SMSG_UPDATE_ACCOUNT_DATA_COMPLETE                 = 0x0000,
     SMSG_UPDATE_COMBO_POINTS                          = 0x6B34,
     SMSG_UPDATE_CURRENCY                              = 0x1595, // 17128
     SMSG_UPDATE_CURRENCY_WEEK_LIMIT                   = 0x70A7,
