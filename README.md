@@ -5,6 +5,10 @@ World of Warcraft Mists of Pandaria emulator for 5.3.0 (17128)
 
 READ ME :
 
+DBC - http://www.sendspace.com/file/9euiv9	
+MAPS - http://www.sendspace.com/file/5miivl	
+
+
 TO DO find opcodes:
 SMSG_UPDATE_ACCOUNT_DATA_COMPLETE,	
 SMSG_MOVE_SET_ACTIVE_MOVER,	 
