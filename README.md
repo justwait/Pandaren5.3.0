@@ -5,7 +5,7 @@ World of Warcraft Mists of Pandaria emulator for 5.3.0 (17128)
 
 READ ME :
 
-PATCHED CLIENT(x86)Windows - http://www.sendspace.com/file/7f5bck
+PATCHED CLIENT(x86)Windows - http://www.sendspace.com/file/7f5bck	
 DBC - http://www.sendspace.com/file/9euiv9	
 MAPS - http://www.sendspace.com/file/5miivl	
 
