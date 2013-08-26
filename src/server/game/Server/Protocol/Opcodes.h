@@ -1277,7 +1277,7 @@ enum Opcodes
     SMSG_SET_PHASE_SHIFT                              = 0x70A0,
     SMSG_SET_PLAYER_DECLINED_NAMES_RESULT             = 0x2B25,
     SMSG_SET_PLAY_HOVER_ANIM                          = 0x30A6,
-    SMSG_SET_PROFICIENCY                              = 0x6207,
+    SMSG_SET_PROFICIENCY                              = 0x00C1, // 17128
     SMSG_SET_PROJECTILE_POSITION                      = 0x2616,
     SMSG_SHOWTAXINODES                                = 0x2A36,
     SMSG_SHOW_BANK                                    = 0x01C4, // 17128
