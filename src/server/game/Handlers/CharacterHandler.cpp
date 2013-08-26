@@ -289,7 +289,7 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
     uint8 hairStyle, face, facialHair, hairColor, race_, class_, skin, gender, outfitId;
 
     recvData >> hairStyle >> face >> facialHair >> hairColor;
-    recvData >> race_ >> class_ >> skin >> gender >> outfitId;
+    recvData >> race_ >> class_ >> skin >> outfitId >> gender;
 
     uint32 nameLength = recvData.ReadBits(6);
     uint8 unk = recvData.ReadBit();
