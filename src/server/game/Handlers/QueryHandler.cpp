@@ -88,16 +88,45 @@ void WorldSession::HandlePlayerNameQueryOpcode(WorldPacket& recvData)
 
     data << rrealmId;
     data << uint8(0);
-    data << uint8(realmID);
-    data << realmName;
-    data << realmName;
+    data.WriteBits(realmName.size(), 8);
+    data.WriteBits(realmName.size(), 8);
+    data.WriteString(realmName);
+    data.WriteString(realmName);
     SendPacket(&data);
 }
 
 void WorldSession::HandleNameQueryOpcode(WorldPacket& recvData)
 {
-    uint64 guid;
-    recvData >> guid;
+    ObjectGuid guid;
+
+    uint8 bit16, bit24;
+    uint32 unk, unk1;
+    
+    guid[3] = recvData.ReadBit();
+    guid[1] = recvData.ReadBit();
+    guid[4] = recvData.ReadBit();
+    guid[2] = recvData.ReadBit();
+    guid[7] = recvData.ReadBit();
+    guid[0] = recvData.ReadBit();
+    guid[5] = recvData.ReadBit();
+    bit16 = recvData.ReadBit(); // bit16
+    guid[6] = recvData.ReadBit();
+    bit24 = recvData.ReadBit(); // bit24
+
+    recvData.ReadByteSeq(guid[6]);
+    recvData.ReadByteSeq(guid[0]);
+    recvData.ReadByteSeq(guid[2]);
+    recvData.ReadByteSeq(guid[3]);
+    recvData.ReadByteSeq(guid[4]);
+    recvData.ReadByteSeq(guid[5]);
+    recvData.ReadByteSeq(guid[7]);
+    recvData.ReadByteSeq(guid[1]);
+
+    if (bit24)
+        recvData >> unk;
+
+    if (bit16)
+        recvData >> unk1;
 
     // This is disable by default to prevent lots of console spam
     // TC_LOG_INFO(LOG_FILTER_NETWORKIO, "HandleNameQueryOpcode %u", guid);

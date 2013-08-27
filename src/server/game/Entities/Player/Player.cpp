@@ -6653,28 +6653,28 @@ void Player::SendActionButtons(uint32 state) const
 
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][1]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][7]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][2]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][5]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
         data.WriteByteSeq(buttons[i][0]);
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
         data.WriteByteSeq(buttons[i][3]);
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][4]);
+        data.WriteByteSeq(buttons[i][5]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][7]);
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
         data.WriteByteSeq(buttons[i][6]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][1]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][4]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][2]);
 
     data << uint8(state);
     GetSession()->SendPacket(&data);
@@ -7373,6 +7373,8 @@ void Player::_SaveCurrency(SQLTransaction& trans)
 
 void Player::SendNewCurrency(uint32 id) const
 {
+    return;
+
     PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
     if (itr == _currencyStorage.end())
         return;
@@ -7412,6 +7414,8 @@ void Player::SendNewCurrency(uint32 id) const
 
 void Player::SendCurrencies() const
 {
+    return;
+
     ByteBuffer currencyData;
     WorldPacket packet(SMSG_INIT_CURRENCY, 4 + _currencyStorage.size()*(5*4 + 1));
     size_t count_pos = packet.bitwpos();
@@ -7500,6 +7504,8 @@ bool Player::HasCurrency(uint32 id, uint32 count) const
 
 void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bool ignoreMultipliers/* = false*/)
 {
+    return;
+
     if (!count)
         return;
 
@@ -9374,9 +9380,12 @@ void Player::SendUpdateWorldState(uint32 Field, uint32 Value)
 
 void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
 {
+    return;
+
     // data depends on zoneid/mapid...
     Battleground* bg = GetBattleground();
     uint32 mapid = GetMapId();
+    uint32 counter = 0;
     OutdoorPvP* pvp = sOutdoorPvPMgr->GetOutdoorPvPToZoneId(zoneid);
     InstanceScript* instance = GetInstanceScript();
     Battlefield* bf = sBattlefieldMgr->GetBattlefieldToZoneId(zoneid);
@@ -9388,7 +9397,12 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
     data << uint32(zoneid);                                 // zone id
     data << uint32(areaid);                                 // area id, new 2.1.0
     size_t countPos = data.wpos();
-    data.WriteBits(0, 21);                                   // count of uint64 blocks
+    data.WriteBits(counter, 21);   
+    /*for (uint32 i = 0; i < counter; ++i)
+    {
+        data << uint32(0);
+        data << uint32(0);
+    }*/
     data << uint32(0x8d8) << uint32(0x0);                   // 1
     data << uint32(0x8d7) << uint32(0x0);                   // 2
     data << uint32(0x8d6) << uint32(0x0);                   // 3
