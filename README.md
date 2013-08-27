@@ -12,10 +12,7 @@ MAPS - http://www.sendspace.com/file/5miivl
 
 TO DO find opcodes:
 SMSG_UPDATE_ACCOUNT_DATA_COMPLETE,	
-SMSG_MOVE_SET_ACTIVE_MOVER,	 
-CMSG_MOVE_SET_ACTIVE_MOVER,		
-
-Search what opcode is this : 0x059B
+SMSG_MOVE_SET_ACTIVE_MOVER,	 		
 
 Fixed SMSG_UPDATE_OBJECT (needed things)
 
