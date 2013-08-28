@@ -184,15 +184,21 @@ enum Powers
     POWER_RAGE                          = 1,
     POWER_FOCUS                         = 2,
     POWER_ENERGY                        = 3,
-    POWER_UNUSED                        = 4,
+    POWER_LIGHT_FORCE                   = 4,
     POWER_RUNES                         = 5,
     POWER_RUNIC_POWER                   = 6,
     POWER_SOUL_SHARDS                   = 7,
     POWER_ECLIPSE                       = 8,
     POWER_HOLY_POWER                    = 9,
-    POWER_ALTERNATE_POWER               = 10,           // Used in some quests
-    MAX_POWERS                          = 11,
-    POWER_ALL                           = 127,          // default for class?
+    POWER_ALTERNATE_POWER               = 10,
+    POWER_DARK_FORCE                    = 11,
+    POWER_CHI                           = 12,
+    POWER_SHADOW_ORBS                   = 13,
+    POWER_BURNING_EMBERS                = 14,
+    POWER_DEMONIC_FURY                  = 15,
+    POWER_ARCANE_CHARGES                = 16,
+    MAX_POWERS                          = 17,
+    POWER_ALL                           = 127,
     POWER_HEALTH                        = 0xFFFFFFFE    // (-2 as signed value)
 };
 
