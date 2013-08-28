@@ -125,7 +125,7 @@ enum Opcodes
     CMSG_CANCEL_QUEUED_SPELL                          = 0x7B1C,
     CMSG_CANCEL_TEMP_ENCHANTMENT                      = 0x6C37,
     CMSG_CANCEL_TRADE                                 = 0x731E,
-    CMSG_CAST_SPELL                                   = 0x4C07,
+    CMSG_CAST_SPELL                                   = 0x4C07, // 17128  0x01CE - prevent crash server
     CMSG_CHANGEPLAYER_DIFFICULTY                      = 0x6107,
     CMSG_CHANGE_SEATS_ON_CONTROLLED_VEHICLE           = 0x7310,
     CMSG_CHANNEL_ANNOUNCEMENTS                        = 0x1146,
@@ -221,7 +221,7 @@ enum Opcodes
     CMSG_GM_REPORT_LAG                                = 0x6726,
     CMSG_GM_SET_SECURITY_GROUP                        = 0x0000,
     CMSG_GOSSIP_HELLO                                 = 0x4525,
-    CMSG_GOSSIP_SELECT_OPTION                         = 0x0216,
+    CMSG_GOSSIP_SELECT_OPTION                         = 0x1341, // 17128
     CMSG_GRANT_LEVEL                                  = 0x6D16,
     CMSG_GROUP_ASSISTANT_LEADER                       = 0x6025,
     CMSG_GROUP_CANCEL                                 = 0x0000,
@@ -285,7 +285,7 @@ enum Opcodes
     CMSG_IGNORE_TRADE                                 = 0x7112,
     CMSG_INITIATE_TRADE                               = 0x7916,
     CMSG_INSPECT                                      = 0x0927,
-    CMSG_INSPECT_HONOR_STATS                          = 0x791E,
+    CMSG_INSPECT_HONOR_STATS                          = 0x01D6, // 17128
     CMSG_INSTANCE_LOCK_WARNING_RESPONSE               = 0x6234,
     CMSG_ITEM_REFUND                                  = 0x6134,
     CMSG_ITEM_REFUND_INFO                             = 0x2206,
@@ -563,6 +563,7 @@ enum Opcodes
     CMSG_UNACCEPT_TRADE                               = 0x391A,
     CMSG_UNLEARN_SKILL                                = 0x6106,
     CMSG_UNLEARN_SPECIALIZATION                       = 0x3210,
+    //CMSG_SET_SPECIALIZATION                           = 0x005B, // 17128
     CMSG_UNREGISTER_ALL_ADDON_PREFIXES                = 0x3D54,
     CMSG_UPDATE_ACCOUNT_DATA                          = 0x0800, // 17128
     CMSG_UPDATE_MISSILE_TRAJECTORY                    = 0x781E,
@@ -595,8 +596,8 @@ enum Opcodes
     MSG_LIST_STABLED_PETS                             = 0x0834,
     MSG_MINIMAP_PING                                  = 0x6635,
     MSG_MOVE_CHARM_TELEPORT_CHEAT                     = 0x7A08,
-    MSG_MOVE_FALL_LAND                                = 0x380A,
-    MSG_MOVE_HEARTBEAT                                = 0x3914,
+    MSG_MOVE_FALL_LAND                                = 0x0CCF, // 17128
+    MSG_MOVE_HEARTBEAT                                = 0x0E0B, // 17128
     MSG_MOVE_JUMP                                     = 0x0CCA,
     MSG_MOVE_SET_ALL_SPEED_CHEAT                      = 0x0000,
     MSG_MOVE_SET_COLLISION_HEIGHT                     = 0x0000,
@@ -626,7 +627,7 @@ enum Opcodes
     MSG_MOVE_STOP                                     = 0x0813,
     MSG_MOVE_STOP_ASCEND                              = 0x7B00,
     MSG_MOVE_STOP_PITCH                               = 0x7216,
-    MSG_MOVE_STOP_STRAFE                              = 0x0A4A,
+    MSG_MOVE_STOP_STRAFE                              = 0x0A4A, // 17128
     MSG_MOVE_STOP_SWIM                                = 0x0C93,
     MSG_MOVE_STOP_TURN                                = 0x080A,
     MSG_MOVE_TELEPORT                                 = 0x0C54, // 17128
@@ -698,7 +699,7 @@ enum Opcodes
     SMSG_AURACASTLOG                                  = 0x0000,
     SMSG_AURA_POINTS_DEPLETED                         = 0x7CB7,
     SMSG_AURA_UPDATE                                  = 0x036E, // 17128
-    SMSG_AURA_UPDATE_ALL                              = 0x6916,
+    SMSG_AURA_UPDATE_ALL                              = 0x6916, // 17128  0x176C - prevent crash server
     SMSG_AUTH_CHALLENGE                               = 0x0221, // 17128
     SMSG_AUTH_RESPONSE                                = 0x0890, // 17128
     SMSG_AVAILABLE_VOICE_CHANNEL                      = 0x2E16,
@@ -1077,7 +1078,7 @@ enum Opcodes
     SMSG_MONEY_NOTIFY                                 = 0x0DCC, // 17128
     SMSG_MONSTER_MOVE                                 = 0x114C, // 17128
     SMSG_MONSTER_MOVE_TRANSPORT                       = 0x2004,
-    SMSG_MOTD                                         = 0x0A35, // 17128
+    SMSG_MOTD                                         = 0x12DC, // 17128
     SMSG_MOUNTRESULT                                  = 0x15D0, // 17128
     SMSG_MOUNTSPECIAL_ANIM                            = 0x0217,
     SMSG_MOVE_COLLISION_DISABLE                       = 0x31B0,
@@ -1198,11 +1199,11 @@ enum Opcodes
     SMSG_QUERY_TIME_RESPONSE                          = 0x0F91, // 17128
     SMSG_QUESTGIVER_OFFER_REWARD                      = 0x2427,
     SMSG_QUESTGIVER_QUEST_COMPLETE                    = 0x55A4,
-    SMSG_QUESTGIVER_QUEST_DETAILS                     = 0x2425,
+    SMSG_QUESTGIVER_QUEST_DETAILS                     = 0x03ED, // 17128
     SMSG_QUESTGIVER_QUEST_FAILED                      = 0x4236,
     SMSG_QUESTGIVER_QUEST_INVALID                     = 0x4016,
     SMSG_QUESTGIVER_QUEST_LIST                        = 0x0134,
-    SMSG_QUESTGIVER_REQUEST_ITEMS                     = 0x6236,
+    SMSG_QUESTGIVER_REQUEST_ITEMS                     = 0x07F4, // 17128
     SMSG_QUESTGIVER_STATUS                            = 0x2115,
     SMSG_QUESTGIVER_STATUS_MULTIPLE                   = 0x4F25,
     SMSG_QUESTLOG_FULL                                = 0x0E36,
@@ -1216,7 +1217,7 @@ enum Opcodes
     SMSG_QUEST_CONFIRM_ACCEPT                         = 0x6F07,
     SMSG_QUEST_FORCE_REMOVE                           = 0x6605,
     SMSG_QUEST_POI_QUERY_RESPONSE                     = 0x6304,
-    SMSG_QUEST_QUERY_RESPONSE                         = 0x6936,
+    SMSG_QUEST_QUERY_RESPONSE                         = 0x13BF, // 17128
     SMSG_RAID_GROUP_ONLY                              = 0x0837,
     SMSG_RAID_INSTANCE_INFO                           = 0x6626,
     SMSG_RAID_INSTANCE_MESSAGE                        = 0x6E15,
@@ -1276,7 +1277,7 @@ enum Opcodes
     SMSG_SET_PCT_SPELL_MODIFIER                       = 0x0224,
     SMSG_SET_PHASE_SHIFT                              = 0x0BD4, // 17128
     SMSG_SET_PLAYER_DECLINED_NAMES_RESULT             = 0x2B25,
-    SMSG_SET_PLAY_HOVER_ANIM                          = 0x30A6,
+    SMSG_SET_PLAY_HOVER_ANIM                          = 0x0A80, // 17128
     SMSG_SET_PROFICIENCY                              = 0x00C1, // 17128
     SMSG_SET_PROJECTILE_POSITION                      = 0x2616,
     SMSG_SHOWTAXINODES                                = 0x2A36,
