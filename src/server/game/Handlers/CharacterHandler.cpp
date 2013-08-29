@@ -717,27 +717,27 @@ void WorldSession::HandleCharCreateCallback(PreparedQueryResult result, Characte
 void WorldSession::HandleCharDeleteOpcode(WorldPacket& recvData)
 {
     ObjectGuid guid;
+    
+    guid[2] = recvData.ReadBit();
+    guid[1] = recvData.ReadBit();
+    guid[5] = recvData.ReadBit();
+    guid[7] = recvData.ReadBit();
+    guid[6] = recvData.ReadBit();
 
-    recvData.WriteBit(guid[2]);
-    recvData.WriteBit(guid[1]);
-    recvData.WriteBit(guid[5]);
-    recvData.WriteBit(guid[7]);
-    recvData.WriteBit(guid[6]);
+    uint8 unk = recvData.ReadBit();
 
-    uint8 unk = recvData.WriteBit(0);
+    guid[3] = recvData.ReadBit();
+    guid[0] = recvData.ReadBit();
+    guid[4] = recvData.ReadBit();
 
-    recvData.WriteBit(guid[3]);
-    recvData.WriteBit(guid[0]);
-    recvData.WriteBit(guid[4]);
-
-    recvData.WriteByteSeq(guid[1]);
-    recvData.WriteByteSeq(guid[3]);
-    recvData.WriteByteSeq(guid[4]);
-    recvData.WriteByteSeq(guid[0]);
-    recvData.WriteByteSeq(guid[7]);
-    recvData.WriteByteSeq(guid[2]);
-    recvData.WriteByteSeq(guid[5]);
-    recvData.WriteByteSeq(guid[6]);
+    recvData.ReadByteSeq(guid[1]);
+    recvData.ReadByteSeq(guid[3]);
+    recvData.ReadByteSeq(guid[4]);
+    recvData.ReadByteSeq(guid[0]);
+    recvData.ReadByteSeq(guid[7]);
+    recvData.ReadByteSeq(guid[2]);
+    recvData.ReadByteSeq(guid[5]);
+    recvData.ReadByteSeq(guid[6]);
 
     TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "Character (Guid: %u) deleted", GUID_LOPART(guid));
 
