@@ -651,7 +651,7 @@ void Object::BuildMovementUpdate(ByteBuffer* data, uint16 flags) const //5.3.0
             //*data << float(self->GetOrientation());
         data->WriteByteSeq(guid1[6]);
         //*data << float(0.0f); //float90
-        *data << float(0.0f); //pitch speed
+        *data << self->GetSpeed(MOVE_PITCH_RATE); //pitch speed
         //*data << float(0.0f); //float70
         //*data << uint32(0); // int9c
         *data << self->GetSpeed(MOVE_SWIM_BACK);
