@@ -508,7 +508,7 @@ enum Opcodes
     CMSG_SET_GUILD_BANK_TEXT                          = 0x3023,
     CMSG_SET_LFG_COMMENT                              = 0x0000,
     CMSG_SET_PET_SLOT                                 = 0x3A04,
-    CMSG_SET_PLAYER_DECLINED_NAMES                    = 0x6316,
+    CMSG_SET_PLAYER_DECLINED_NAMES                    = 0x0815, // 17128
     CMSG_SET_PREFERED_CEMETERY                        = 0x311E,
     CMSG_SET_PRIMARY_TALENT_TREE                      = 0x4524,
     CMSG_SET_RELATIVE_POSITION                        = 0x311A,
@@ -1276,7 +1276,7 @@ enum Opcodes
     SMSG_SET_MOVEMENT_ANIM_KIT                        = 0x0000,
     SMSG_SET_PCT_SPELL_MODIFIER                       = 0x0224,
     SMSG_SET_PHASE_SHIFT                              = 0x0BD4, // 17128
-    SMSG_SET_PLAYER_DECLINED_NAMES_RESULT             = 0x2B25,
+    SMSG_SET_PLAYER_DECLINED_NAMES_RESULT             = 0x08CC, // 17128
     SMSG_SET_PLAY_HOVER_ANIM                          = 0x0A80, // 17128
     SMSG_SET_PROFICIENCY                              = 0x00C1, // 17128
     SMSG_SET_PROJECTILE_POSITION                      = 0x2616,
