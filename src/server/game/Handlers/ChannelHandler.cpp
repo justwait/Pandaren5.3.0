@@ -84,7 +84,14 @@ void WorldSession::HandleLeaveChannel(WorldPacket& recvPacket)
 
 void WorldSession::HandleChannelList(WorldPacket& recvPacket)
 {
-    uint32 length = recvPacket.ReadBits(8);
+
+    uint32 flags;
+    recvPacket >> flags; 
+    uint32 password = recvPacket.ReadBits(7);
+    recvPacket.ReadBit();
+    uint32 length = recvPacket.ReadBits(7);
+    recvPacket.ReadBit();
+    std::string passwordName = recvPacket.ReadString(password);
     std::string channelName = recvPacket.ReadString(length);
 
     TC_LOG_DEBUG(LOG_FILTER_CHATSYS, "%s %s Channel: %s",
