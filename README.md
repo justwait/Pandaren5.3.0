@@ -10,14 +10,10 @@ DBC - http://www.sendspace.com/file/9euiv9
 MAPS - http://www.sendspace.com/file/5miivl	
 
 
-TO DO find opcodes:
-SMSG_UPDATE_ACCOUNT_DATA_COMPLETE,	
-SMSG_MOVE_SET_ACTIVE_MOVER,	 		
-
-Fixed SMSG_UPDATE_OBJECT (needed things)
+TO DO:
+Fix "self" UPDATE_OBJECT for player. That's the problem why full login doesn't work.
 
 For those who fork it.
-
 1. There are 2 updates for "auth" that needs to be executed (don't forget about them).
 2. I hope people will push something not only pull and wait for other.
 
