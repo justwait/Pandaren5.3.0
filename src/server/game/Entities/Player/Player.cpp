@@ -4047,8 +4047,14 @@ void Player::learnSpell(uint32 spell_id, bool dependent)
     if (learning && IsInWorld())
     {
         WorldPacket data(SMSG_LEARNED_SPELL, 8);
-        data << uint32(spell_id);
-        data << uint32(0);
+        uint32 counter = 0;
+        data.WriteBit(0);
+        data.WriteBits(counter, 22);
+
+        for (uint32 i = 0; i < counter; ++i)
+        {
+            data << uint32(spell_id);
+        }
         GetSession()->SendPacket(&data);
     }
 
