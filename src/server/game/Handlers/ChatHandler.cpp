@@ -683,15 +683,33 @@ namespace Trinity
                 std::string const name(i_target ? i_target->GetNameForLocaleIdx(loc_idx) : "");
                 uint32 namlen = name.size();
 
-                data.Initialize(SMSG_TEXT_EMOTE, 20 + namlen);
-                data << i_player.GetGUID();
+                ObjectGuid i_player;
+                std::string emoteName = "Name";
+
+                data.Initialize(SMSG_TEXT_EMOTE, 34);
+
+                data.WriteBit(i_player[4]);
+                data.WriteBit(i_player[0]);
+                data.WriteBit(i_player[2]);
+                data.WriteBit(i_player[6]);
+                data.WriteBit(i_player[1]);
+                data.WriteBit(i_player[5]);
+                data.WriteBits(emoteName.size(), 7);
+                data.WriteBit(i_player[7]);
+                data.WriteBit(i_player[3]);
+
                 data << uint32(i_text_emote);
+                data.WriteString(emoteName);
                 data << uint32(i_emote_num);
-                data << uint32(namlen);
-                if (namlen > 1)
-                    data << name;
-                else
-                    data << uint8(0x00);
+
+                data.WriteByteSeq(i_player[7]);
+ 	            data.WriteByteSeq(i_player[0]);
+ 	            data.WriteByteSeq(i_player[5]);
+ 	            data.WriteByteSeq(i_player[3]);
+ 	            data.WriteByteSeq(i_player[4]);
+ 	            data.WriteByteSeq(i_player[2]);
+ 	            data.WriteByteSeq(i_player[1]);
+ 	            data.WriteByteSeq(i_player[6]);
             }
 
         private:
@@ -715,11 +733,28 @@ void WorldSession::HandleTextEmoteOpcode(WorldPacket& recvData)
     }
 
     uint32 text_emote, emoteNum;
-    uint64 guid;
+    ObjectGuid guid;
 
     recvData >> text_emote;
     recvData >> emoteNum;
-    recvData >> guid;
+    
+    guid[3] = recvData.ReadBit();
+    guid[4] = recvData.ReadBit();
+    guid[5] = recvData.ReadBit();
+    guid[1] = recvData.ReadBit();
+    guid[6] = recvData.ReadBit();
+    guid[2] = recvData.ReadBit();
+    guid[0] = recvData.ReadBit();
+    guid[7] = recvData.ReadBit();
+
+    recvData.ReadByteSeq(guid[6]);
+    recvData.ReadByteSeq(guid[7]);
+    recvData.ReadByteSeq(guid[4]);
+    recvData.ReadByteSeq(guid[5]);
+    recvData.ReadByteSeq(guid[2]);
+    recvData.ReadByteSeq(guid[1]);
+    recvData.ReadByteSeq(guid[3]);
+    recvData.ReadByteSeq(guid[0]);
 
     sScriptMgr->OnPlayerTextEmote(GetPlayer(), text_emote, emoteNum, guid);
 

@@ -546,7 +546,7 @@ enum Opcodes
     CMSG_TAXIQUERYAVAILABLENODES                      = 0x6C06,
     CMSG_TAXISHOWNODES                                = 0x0000,
     CMSG_TELEPORT_TO_UNIT                             = 0x4206,
-    CMSG_TEXT_EMOTE                                   = 0x2E24,
+    CMSG_TEXT_EMOTE                                   = 0x1444, // 17128
     CMSG_TIME_ADJUSTMENT_RESPONSE                     = 0x215C,
     CMSG_TIME_SYNC_RESP                               = 0x0853, // 17128
     CMSG_TIME_SYNC_RESP_FAILED                        = 0x215A,
