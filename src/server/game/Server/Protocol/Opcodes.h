@@ -348,11 +348,11 @@ enum Opcodes
     CMSG_MESSAGECHAT_GUILD                            = 0x3956,
     CMSG_MESSAGECHAT_OFFICER                          = 0x1946,
     CMSG_MESSAGECHAT_PARTY                            = 0x1D46,
-    CMSG_MESSAGECHAT_RAID                             = 0x016A, // 17128
-    CMSG_MESSAGECHAT_RAID_WARNING                     = 0x143A, // 17128
-    CMSG_MESSAGECHAT_SAY                              = 0x1333, // 17128
-    CMSG_MESSAGECHAT_WHISPER                          = 0x143A,
-    CMSG_MESSAGECHAT_YELL                             = 0x1333,
+    CMSG_MESSAGECHAT_RAID                             = 0x9990, // some only mess up giving this frm bottom here
+    CMSG_MESSAGECHAT_RAID_WARNING                     = 0x9991, //
+    CMSG_MESSAGECHAT_SAY                              = 0x016A, // 17128
+    CMSG_MESSAGECHAT_WHISPER                          = 0x143A, // 17128
+    CMSG_MESSAGECHAT_YELL                             = 0x1333, // 17128
     CMSG_MINIGAME_MOVE                                = 0x2A34,
     CMSG_MOUNTSPECIAL_ANIM                            = 0x2807,
     CMSG_MOVE_CHARM_TELEPORT_CHEAT                    = 0x0000,
