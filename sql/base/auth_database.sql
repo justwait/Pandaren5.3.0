@@ -37,7 +37,7 @@ CREATE TABLE `account` (
   `lock_country` varchar(2) NOT NULL DEFAULT '00',
   `last_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `online` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `expansion` tinyint(3) unsigned NOT NULL DEFAULT '4',
+  `expansion` tinyint(4) unsigned NOT NULL DEFAULT '4',
   `mutetime` bigint(20) NOT NULL DEFAULT '0',
   `mutereason` varchar(255) NOT NULL DEFAULT '',
   `muteby` varchar(50) NOT NULL DEFAULT '',
@@ -491,7 +491,7 @@ CREATE TABLE `realmlist` (
 
 LOCK TABLES `realmlist` WRITE;
 /*!40000 ALTER TABLE `realmlist` DISABLE KEYS */;
-INSERT INTO `realmlist` VALUES (1,'Trinity','127.0.0.1','127.0.0.1','255.255.255.0',8085,1,0,1,0,0,15595);
+INSERT INTO `realmlist` VALUES (1,'Raknar-MOP','127.0.0.1','127.0.0.1','255.255.255.0',8085,1,0,1,0,0,17128);
 /*!40000 ALTER TABLE `realmlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
