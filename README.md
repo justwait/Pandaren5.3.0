@@ -1,4 +1,4 @@
-Pandaren5.3.0
+Pandaren5.3.0 NO LONGER SUPPORTED I SWITCH TO PRIVATE MODE
 =============
 
 World of Warcraft Mists of Pandaria emulator for 5.3.0 (17128)
