@@ -93,13 +93,34 @@ void WorldSession::HandleGossipSelectOptionOpcode(WorldPacket& recvData)
 
     uint32 gossipListId;
     uint32 menuId;
-    uint64 guid;
+    ObjectGuid guid;
     std::string code = "";
 
-    recvData >> guid >> menuId >> gossipListId;
+    recvData >>  menuId >> gossipListId;
+
+    guid[2] = recvData.ReadBit();
+    guid[0] = recvData.ReadBit();
+    guid[6] = recvData.ReadBit();
+    guid[4] = recvData.ReadBit();
+    guid[1] = recvData.ReadBit();
+    guid[5] = recvData.ReadBit();
+    guid[3] = recvData.ReadBit();
+    guid[7] = recvData.ReadBit();
+
+    recvData.WriteBits(code.size(), 8);
+
+    recvData.ReadByteSeq(guid[0]);
 
     if (_player->PlayerTalkClass->IsGossipOptionCoded(gossipListId))
         recvData >> code;
+
+    recvData.ReadByteSeq(guid[6]);
+    recvData.ReadByteSeq(guid[5]);
+    recvData.ReadByteSeq(guid[7]);
+    recvData.ReadByteSeq(guid[4]);
+    recvData.ReadByteSeq(guid[3]);
+    recvData.ReadByteSeq(guid[2]);
+    recvData.ReadByteSeq(guid[1]);
 
     Creature* unit = NULL;
     GameObject* go = NULL;
@@ -1144,8 +1165,8 @@ void WorldSession::HandleSetActionButtonOpcode(WorldPacket& recvData)
  	recvData.ReadByteSeq(guid[0]);
  	recvData.ReadByteSeq(guid[2]);
  	recvData.ReadByteSeq(guid[1]);
- 	recvData.ReadByteSeq(guid[4]);
  	recvData.ReadByteSeq(guid[5]);
+ 	recvData.ReadByteSeq(guid[4]);
  	recvData.ReadByteSeq(guid[6]);
 
     ActionButtonPACKET* button = (ActionButtonPACKET*)&guid;
@@ -1299,8 +1320,25 @@ void WorldSession::HandlePlayedTime(WorldPacket& recvData)
 
 void WorldSession::HandleInspectOpcode(WorldPacket& recvData)
 {
-    uint64 guid;
-    recvData >> guid;
+    ObjectGuid guid;
+
+    guid[7] = recvData.ReadBit();
+    guid[0] = recvData.ReadBit();
+    guid[6] = recvData.ReadBit();
+    guid[4] = recvData.ReadBit();
+    guid[5] = recvData.ReadBit();
+    guid[2] = recvData.ReadBit();
+    guid[3] = recvData.ReadBit();
+    guid[1] = recvData.ReadBit();
+
+    recvData.ReadByteSeq(guid[1]);
+    recvData.ReadByteSeq(guid[2]);
+    recvData.ReadByteSeq(guid[4]);
+    recvData.ReadByteSeq(guid[5]);
+    recvData.ReadByteSeq(guid[6]);
+    recvData.ReadByteSeq(guid[7]);
+    recvData.ReadByteSeq(guid[0]);
+    recvData.ReadByteSeq(guid[3]);
 
     TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: Received CMSG_INSPECT");
 

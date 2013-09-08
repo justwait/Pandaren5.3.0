@@ -240,7 +240,7 @@ int Master::Run()
     if (sConfigMgr->GetBoolDefault("SOAP.Enabled", false))
     {
         TCSoapRunnable* runnable = new TCSoapRunnable();
-        runnable->setListenArguments(sConfigMgr->GetStringDefault("SOAP.IP", "127.0.0.1"), uint16(sConfigMgr->GetIntDefault("SOAP.Port", 7878)));
+        runnable->SetListenArguments(sConfigMgr->GetStringDefault("SOAP.IP", "127.0.0.1"), uint16(sConfigMgr->GetIntDefault("SOAP.Port", 7878)));
         soap_thread = new ACE_Based::Thread(runnable);
     }
 

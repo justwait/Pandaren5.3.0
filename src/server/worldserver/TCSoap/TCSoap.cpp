@@ -1,18 +1,10 @@
 /*
  * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2013 Project Cerberus <http://www.erabattle.ru/>
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation; either version 2 of the License, or (at your
- * option) any later version.
+ * This program is not free software; you can not redistribute it and/or modify it.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
+ * This program is distributed only by <http://www.erabattle.ru/>!
  */
 
 #include "TCSoap.h"
@@ -33,13 +25,13 @@ void TCSoapRunnable::run()
     soap.accept_timeout = 3;
     soap.recv_timeout = 5;
     soap.send_timeout = 5;
-    if (!soap_valid_socket(soap_bind(&soap, m_host.c_str(), m_port, 100)))
+    if (!soap_valid_socket(soap_bind(&soap, _host.c_str(), _port, 100)))
     {
-        TC_LOG_ERROR(LOG_FILTER_SOAP, "Couldn't bind to %s:%d", m_host.c_str(), m_port);
+        TC_LOG_ERROR(LOG_FILTER_SOAP, "Couldn't bind to %s:%d", _host.c_str(), _port);
         exit(-1);
     }
 
-    TC_LOG_INFO(LOG_FILTER_SOAP, "Bound to http://%s:%d", m_host.c_str(), m_port);
+    TC_LOG_INFO(LOG_FILTER_SOAP, "Bound to http://%s:%d", _host.c_str(), _port);
 
     while (!World::IsStopped())
     {
@@ -121,9 +113,7 @@ int ns1__executeCommand(soap* soap, char* command, char** result)
 
     int acc = connection.pendingCommands.acquire();
     if (acc)
-    {
         TC_LOG_ERROR(LOG_FILTER_SOAP, "Error while acquiring lock, acc = %i, errno = %u", acc, errno);
-    }
 
     // alright, command finished
 

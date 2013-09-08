@@ -95,11 +95,15 @@ enum MovementStatusElements
     MSEFallHorizontalSpeed,
     MSESplineElevation,
 
-    MSECounter,
+    
 
     // Special
     MSEZeroBit,         // writes bit value 1 or skips read bit
     MSEOneBit,          // writes bit value 0 or skips read bit
+    MSEHasCounter,        
+    MSECounter,         // read 22 bits
+    MSEIsAlive,         // unk
+    MSEAlive,           // unk
     MSEEnd,             // marks end of parsing
     MSEExtraElement,    // Used to signalize reading into ExtraMovementStatusElement, element sequence inside it is declared as separate array
                         // Allowed internal elements are: GUID markers (not transport), MSEExtraFloat, MSEExtraInt8

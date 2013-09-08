@@ -223,9 +223,11 @@ enum ShapeshiftForm
     FORM_BATTLESTANCE       = 0x11,
     FORM_DEFENSIVESTANCE    = 0x12,
     FORM_BERSERKERSTANCE    = 0x13,
-    FORM_TEST               = 0x14,
+    FORM_SERPENTSTANCE      = 0x14, // new in 5.x.x
     FORM_ZOMBIE             = 0x15,
     FORM_METAMORPHOSIS      = 0x16,
+    FORM_OXSTANCE           = 0x17, // new in 5.x.x
+    FORM_TIGERSTANCE        = 0x18, // new in 5.x.x
     FORM_UNDEAD             = 0x19,
     FORM_MASTER_ANGLER      = 0x1A,
     FORM_FLIGHT_EPIC        = 0x1B,
@@ -447,6 +449,7 @@ enum UnitMods
     UNIT_MOD_ECLIPSE,
     UNIT_MOD_HOLY_POWER,
     UNIT_MOD_ALTERNATIVE,
+    UNIT_MOD_CHI,
     UNIT_MOD_ARMOR,                                         // UNIT_MOD_ARMOR..UNIT_MOD_RESISTANCE_ARCANE must be in existed order, it's accessed by index values of SpellSchools enum.
     UNIT_MOD_RESISTANCE_HOLY,
     UNIT_MOD_RESISTANCE_FIRE,

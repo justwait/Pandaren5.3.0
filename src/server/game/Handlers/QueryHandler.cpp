@@ -31,36 +31,60 @@
 #include "Pet.h"
 #include "MapManager.h"
 
-void WorldSession::SendNameQueryOpcode(uint64 guid)
+void WorldSession::SendNameQueryOpcode(ObjectGuid guid)
 {
     Player* player = ObjectAccessor::FindPlayer(guid);
     CharacterNameData const* nameData = sWorld->GetCharacterNameData(GUID_LOPART(guid));
-
-    WorldPacket data(SMSG_NAME_QUERY_RESPONSE, (8+1+1+1+1+1+10));
-    data.appendPackGUID(guid);
+    WorldPacket data(SMSG_NAME_QUERY_RESPONSE, 500);
     if (!nameData)
     {
-        data << uint8(1);                           // name unknown
-        SendPacket(&data);
         return;
     }
-
-    data << uint8(0);                               // name known
-    data << nameData->m_name;                       // played name
-    data << uint8(0);                               // realm name - only set for cross realm interaction (such as Battlegrounds)
+    
+    data.WriteBit(0);
+    data.WriteBit(guid[1]);
+    data.WriteBit(guid[3]);
+    data.WriteBit(guid[2]);
+  
+    data.WriteBits(nameData->m_name.size(), 6);
+    data.WriteBit(guid[6]);
+    data.WriteBit(guid[4]);
+    data.WriteBit(guid[0]);
+    data.WriteBit(0);
+    
+    data.WriteBit(guid[5]);
+    data.WriteBit(guid[7]);
+    
+    data.FlushBits();
+    
+    data.WriteByteSeq(guid[1]);
+    
+    data.WriteString(nameData->m_name);             // played name
+    
+    data.WriteByteSeq(guid[0]);
+    data.WriteByteSeq(guid[7]);
+    
     data << uint8(nameData->m_race);
+    data << uint8(0); // realm name
     data << uint8(nameData->m_gender);
     data << uint8(nameData->m_class);
-
+    
+    data.WriteByteSeq(guid[4]);
+    data.WriteByteSeq(guid[6]);
+    data.WriteByteSeq(guid[5]);
+    
+    data << uint32(50397209); // const player time 
+    
+    data.WriteByteSeq(guid[3]);
+    data.WriteByteSeq(guid[2]);
+    
     if (DeclinedName const* names = (player ? player->GetDeclinedNames() : NULL))
     {
         data << uint8(1);                           // Name is declined
         for (uint8 i = 0; i < MAX_DECLINED_NAME_CASES; ++i)
-            data << names->name[i];
+             data << names->name[i];
     }
-    else
-        data << uint8(0);                           // Name is not declined
-
+    
     SendPacket(&data);
 }
 
@@ -152,13 +176,13 @@ void WorldSession::HandleCreatureQueryOpcode(WorldPacket& recvData)
 {
     uint32 entry;
     recvData >> entry;
-    uint64 guid;
-    recvData >> guid;
+    
+    WorldPacket data(SMSG_CREATURE_QUERY_RESPONSE, 500);
+    data << uint32(entry);                              // creature entry  
 
     CreatureTemplate const* ci = sObjectMgr->GetCreatureTemplate(entry);
     if (ci)
     {
-
         std::string Name, SubName;
         Name = ci->Name;
         SubName = ci->SubName;
@@ -173,45 +197,55 @@ void WorldSession::HandleCreatureQueryOpcode(WorldPacket& recvData)
             }
         }
         TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CREATURE_QUERY '%s' - Entry: %u.", ci->Name.c_str(), entry);
-                                                            // guess size
-        WorldPacket data(SMSG_CREATURE_QUERY_RESPONSE, 100);
-        data << uint32(entry);                              // creature entry
-        data << Name;
-
-        for (int i = 0; i < 7; i++)
-            data << uint8(0); // name2, ..., name8
-
-        data << SubName;
-        data << ci->IconName;                               // "Directions" for guard, string for Icons 2.3.0
-        data << uint32(ci->type_flags);                     // flags
-        data << uint32(ci->type_flags2);                    // unknown meaning
-        data << uint32(ci->type);                           // CreatureType.dbc
-        data << uint32(ci->family);                         // CreatureFamily.dbc
-        data << uint32(ci->rank);                           // Creature Rank (elite, boss, etc)
-        data << uint32(ci->KillCredit[0]);                  // new in 3.1, kill credit
-        data << uint32(ci->KillCredit[1]);                  // new in 3.1, kill credit
-        data << uint32(ci->Modelid1);                       // Modelid1
-        data << uint32(ci->Modelid2);                       // Modelid2
-        data << uint32(ci->Modelid3);                       // Modelid3
-        data << uint32(ci->Modelid4);                       // Modelid4
+        
+        data.WriteBit(1);                                    // has data
+        data.WriteBits(SubName.length() == 0 ? 0 : SubName.length() + 1, 11);
+        data.WriteBit(ci->RacialLeader);
+        
+        for (int i = 0; i < 8; i++)
+        {
+          if (i == 1)
+              data.WriteBits(Name.length() + 1, 11);
+          else
+              data.WriteBits(0, 11);                          // name2, ..., name8
+        }
+            
+        data.WriteBits(ci->IconName.length() + 1, 6);
+        data.WriteBits(0, 11);
+        data.WriteBits(8, 22);                              // questitems
+        
+        data.FlushBits();
+        
+        data << Name;                                       // Name
         data << float(ci->ModHealth);                       // dmg/hp modifier
-        data << float(ci->ModMana);                         // dmg/mana modifier
-        data << uint8(ci->RacialLeader);
+        data << SubName;                                    // Subname
+        data << uint32(ci->rank);                           // Creature Rank (elite, boss, etc)
+        
         for (uint32 i = 0; i < MAX_CREATURE_QUEST_ITEMS; ++i)
             data << uint32(ci->questItems[i]);              // itemId[6], quest drop
+            
+        data << uint32(ci->type);                           // CreatureType.dbc
+        data << uint32(ci->KillCredit[0]);                  // new in 3.1, kill credit
+        data << uint32(ci->KillCredit[1]);                  // new in 3.1, kill credit
+        data << uint32(ci->family);                         // CreatureFamily.dbc
+        data << ci->IconName;                               // "Directions" for guard, string for Icons 2.3.0
+        data << uint32(ci->Modelid2);                       // Modelid2
+        data << uint32(ci->Modelid1);                       // Modelid1
         data << uint32(ci->movementId);                     // CreatureMovementInfo.dbc
-        data << uint32(ci->expansionUnknown);               // unknown meaning
+        data << uint32(ci->Modelid4);                       // Modelid4
+        data << uint32(ci->type_flags);                     // flags
+        data << uint32(ci->type_flags2);                    // unknown meaning
+        data << uint32(ci->Modelid3);                       // Modelid3
+        data << float(ci->ModMana);                         // dmg/mana modifier
+        data << uint32(ci->expansion);                      // Expansion Required
+        
         SendPacket(&data);
         TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: Sent SMSG_CREATURE_QUERY_RESPONSE");
     }
     else
     {
-        TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CREATURE_QUERY - NO CREATURE INFO! (GUID: %u, ENTRY: %u)",
-            GUID_LOPART(guid), entry);
-        WorldPacket data(SMSG_CREATURE_QUERY_RESPONSE, 4);
-        data << uint32(entry | 0x80000000);
-        SendPacket(&data);
-        TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: Sent SMSG_CREATURE_QUERY_RESPONSE");
+        TC_LOG_DEBUG(LOG_FILTER_NETWORKIO, "WORLD: CMSG_CREATURE_QUERY - NO CREATURE INFO! (ENTRY: %u)", entry);
+        //data.WriteBit(0);
     }
 }
 
