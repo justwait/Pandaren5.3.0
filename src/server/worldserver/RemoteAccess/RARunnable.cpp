@@ -1,18 +1,10 @@
 /*
  * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2013 Project Cerberus <http://www.erabattle.ru/>
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation; either version 2 of the License, or (at your
- * option) any later version.
+ * This program is not free software; you can not redistribute it and/or modify it.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
+ * This program is distributed only by <http://www.erabattle.ru/>!
  */
 
 /** \file
@@ -61,22 +53,20 @@ void RARunnable::run()
 
     ACE_Acceptor<RASocket, ACE_SOCK_ACCEPTOR> acceptor;
 
-    uint16 raport = uint16(sConfigMgr->GetIntDefault("Ra.Port", 3443));
-    std::string stringip = sConfigMgr->GetStringDefault("Ra.IP", "0.0.0.0");
-    ACE_INET_Addr listen_addr(raport, stringip.c_str());
+    uint16 raPort = uint16(sConfigMgr->GetIntDefault("Ra.Port", 3443));
+    std::string stringIp = sConfigMgr->GetStringDefault("Ra.IP", "0.0.0.0");
+    ACE_INET_Addr listenAddress(raPort, stringIp.c_str());
 
-    if (acceptor.open(listen_addr, m_Reactor) == -1)
+    if (acceptor.open(listenAddress, m_Reactor) == -1)
     {
-        TC_LOG_ERROR(LOG_FILTER_WORLDSERVER, "Trinity RA can not bind to port %d on %s", raport, stringip.c_str());
+        TC_LOG_ERROR(LOG_FILTER_WORLDSERVER, "Trinity RA can not bind to port %d on %s", raPort, stringIp.c_str());
         return;
     }
 
-    TC_LOG_INFO(LOG_FILTER_WORLDSERVER, "Starting Trinity RA on port %d on %s", raport, stringip.c_str());
+    TC_LOG_INFO(LOG_FILTER_WORLDSERVER, "Starting Trinity RA on port %d on %s", raPort, stringIp.c_str());
 
     while (!World::IsStopped())
     {
-        // don't be too smart to move this outside the loop
-        // the run_reactor_event_loop will modify interval
         ACE_Time_Value interval(0, 100000);
         if (m_Reactor->run_reactor_event_loop(interval) == -1)
             break;

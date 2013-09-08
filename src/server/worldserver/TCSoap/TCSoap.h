@@ -1,18 +1,10 @@
 /*
  * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2013 Project Cerberus <http://www.erabattle.ru/>
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation; either version 2 of the License, or (at your
- * option) any later version.
+ * This program is not free software; you can not redistribute it and/or modify it.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
+ * This program is distributed only by <http://www.erabattle.ru/>!
  */
 
 #ifndef _TCSOAP_H
@@ -24,21 +16,24 @@
 #include <ace/Task.h>
 #include <Threading.h>
 
-class TCSoapRunnable: public ACE_Based::Runnable
+class TCSoapRunnable : public ACE_Based::Runnable
 {
     public:
-        TCSoapRunnable() : m_host(""), m_port(0) { }
-        void run();
-        void setListenArguments(std::string host, uint16 port)
+        TCSoapRunnable() : _port(0) { }
+
+        void run() OVERRIDE;
+
+        void SetListenArguments(const std::string& host, uint16 port)
         {
-            m_host = host;
-            m_port = port;
+            _host = host;
+            _port = port;
         }
+
     private:
         void process_message(ACE_Message_Block* mb);
 
-        std::string m_host;
-        uint16 m_port;
+        std::string _host;
+        uint16 _port;
 };
 
 class SOAPCommand

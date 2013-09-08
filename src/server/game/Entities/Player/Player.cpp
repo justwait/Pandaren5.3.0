@@ -2545,6 +2545,9 @@ void Player::RegenerateAll()
         if (getClass() == CLASS_DEATH_KNIGHT)
             Regenerate(POWER_RUNIC_POWER);
 
+        if (getClass() == CLASS_MONK)
+            Regenerate(POWER_CHI); 
+
         m_regenTimerCount -= 2000;
     }
 
@@ -2625,6 +2628,13 @@ void Player::Regenerate(Powers power)
         break;
         case POWER_RUNES:
             break;
+
+        case POWER_CHI:                                  // Regenerate chi (monk)
+        {
+            float ChiRate = sWorld->getRate(RATE_POWER_CHI);
+            addvalue = 20 * ChiRate;
+            break;
+        } 
         case POWER_HEALTH:
             return;
         default:
@@ -5822,7 +5832,7 @@ void Player::GetDodgeFromAgility(float &diminishing, float &nondiminishing)
          0.016750f, // Shaman
          0.034575f, // Mage
          0.020350f, // Warlock
-         0.0f,      // ??
+         0.056097f, // Monk
          0.049510f  // Druid
     };
     // Crit/agility to dodge/agility coefficient multipliers; 3.2.0 increased required agility by 15%
@@ -5837,7 +5847,7 @@ void Player::GetDodgeFromAgility(float &diminishing, float &nondiminishing)
          1.60f/1.15f,    // Shaman
          1.00f/1.15f,    // Mage
          0.97f/1.15f,    // Warlock (?)
-         0.0f,           // ??
+         2.00f/1.15f,    // Monk
          2.00f/1.15f     // Druid
     };
 
@@ -6659,28 +6669,28 @@ void Player::SendActionButtons(uint32 state) const
 
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][1]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][7]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][2]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
+        data.WriteByteSeq(buttons[i][5]);
+
+    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
         data.WriteByteSeq(buttons[i][0]);
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
         data.WriteByteSeq(buttons[i][3]);
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][5]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][7]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][6]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][1]);
-
-    for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
         data.WriteByteSeq(buttons[i][4]);
 
     for (uint8 i = 0; i < MAX_ACTION_BUTTONS; ++i)
-        data.WriteByteSeq(buttons[i][2]);
+        data.WriteByteSeq(buttons[i][6]);
 
     data << uint8(state);
     GetSession()->SendPacket(&data);
@@ -21666,6 +21676,24 @@ void Player::InitDataForForm(bool reapplyMods)
                 setPowerType(Powers(cEntry->powerType));
             break;
         }
+        case FORM_OXSTANCE:
+        {
+            if (getPowerType() != POWER_ENERGY)
+                setPowerType(POWER_ENERGY);
+            break;
+        }
+        case FORM_SERPENTSTANCE:
+        {
+            if (getPowerType() != POWER_MANA)
+                setPowerType(POWER_MANA);
+            break;
+        }
+        case FORM_TIGERSTANCE:
+        {
+            if (getPowerType() != POWER_ENERGY)
+                setPowerType(POWER_ENERGY);
+            break;
+        } 
     }
 
     // update auras at form change, ignore this at mods reapply (.reset stats/etc) when form not change.
@@ -24485,7 +24513,10 @@ void Player::SendCorpseReclaimDelay(bool load)
 
     //! corpse reclaim delay 30 * 1000ms or longer at often deaths
     WorldPacket data(SMSG_CORPSE_RECLAIM_DELAY, 4);
-    data << uint32(delay*IN_MILLISECONDS);
+    bool bit1;
+
+    if (!bit1)
+        data << uint32(delay*IN_MILLISECONDS);
     GetSession()->SendPacket(&data);
 }
 
@@ -27322,7 +27353,8 @@ void Player::ReadMovementInfo(WorldPacket& data, MovementInfo* mi, Movement::Ext
     bool hasTimestamp = false;
     bool hasOrientation = false;
     bool hasTransportData = false;
-
+    bool isAlive = false;
+    uint32 counter = 0;
     ObjectGuid guid;
     ObjectGuid tguid;
 
@@ -27419,7 +27451,7 @@ void Player::ReadMovementInfo(WorldPacket& data, MovementInfo* mi, Movement::Ext
                 break;
             case MSEMovementFlags2:
                 if (hasMovementFlags2)
-                    mi->flags2 = data.ReadBits(12);
+                    mi->flags2 = data.ReadBits(13);
                 break;
             case MSETimestamp:
                 if (hasTimestamp)
@@ -27498,8 +27530,19 @@ void Player::ReadMovementInfo(WorldPacket& data, MovementInfo* mi, Movement::Ext
                 if (mi->bits.hasSplineElevation)
                     data >> mi->splineElevation;
                 break;
+            case MSEHasCounter:
+                counter = data.ReadBits(22);
+                break;
             case MSECounter:
-                data.read_skip<uint32>();   /// @TODO: Maybe compare it with m_movementCounter to verify that packets are sent & received in order?
+                for (uint32 j = 0; j < counter; ++j)
+                    data.read_skip<uint32>();   /// @TODO: Maybe compare it with m_movementCounter to verify that packets are sent & received in order?
+                break;
+            case MSEIsAlive:
+                isAlive = !data.ReadBit();
+                break;
+            case MSEAlive:
+                if (isAlive)
+                    data >> mi->time;
                 break;
             case MSEZeroBit:
             case MSEOneBit:

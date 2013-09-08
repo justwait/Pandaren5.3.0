@@ -48,7 +48,7 @@ inline void LoadDB2(uint32& availableDb2Locales, DB2StoreProblemList& errlist, D
 {
     // compatibility format and C++ structure sizes
     ASSERT(DB2FileLoader::GetFormatRecordSize(storage.GetFormat()) == sizeof(T) || LoadDB2_assert_print(DB2FileLoader::GetFormatRecordSize(storage.GetFormat()), sizeof(T), filename));
-
+	TC_LOG_ERROR(LOG_FILTER_GENERAL, ">> loaditem from DB2 data stores.");
     ++DB2FilesCount;
 
     std::string db2_filename = db2_path + filename;
@@ -91,41 +91,41 @@ inline void LoadDB2(uint32& availableDb2Locales, DB2StoreProblemList& errlist, D
 void LoadDB2Stores(std::string const& dataPath)
 {
     std::string db2Path = dataPath + "dbc/";
-
+	
     DB2StoreProblemList bad_db2_files;
     uint32 availableDb2Locales = 0xFF;
 
-    //LoadDB2(availableDb2Locales, bad_db2_files, sItemStore, db2Path, "Item.db2");
-    //LoadDB2(availableDb2Locales, bad_db2_files, sItemCurrencyCostStore, db2Path, "ItemCurrencyCost.db2");
-    //LoadDB2(availableDb2Locales, bad_db2_files, sItemSparseStore, db2Path, "Item-sparse.db2");
-    //LoadDB2(availableDb2Locales, bad_db2_files, sItemExtendedCostStore, db2Path, "ItemExtendedCost.db2");
-    //LoadDB2(availableDb2Locales, bad_db2_files, sKeyChainStore, db2Path, "KeyChain.db2");
+    LoadDB2(availableDb2Locales, bad_db2_files, sItemStore, db2Path, "Item.db2");
+    LoadDB2(availableDb2Locales, bad_db2_files, sItemCurrencyCostStore, db2Path, "ItemCurrencyCost.db2");
+    LoadDB2(availableDb2Locales, bad_db2_files, sItemSparseStore, db2Path, "Item-sparse.db2");
+    LoadDB2(availableDb2Locales, bad_db2_files, sItemExtendedCostStore, db2Path, "ItemExtendedCost.db2");
+    LoadDB2(availableDb2Locales, bad_db2_files, sKeyChainStore, db2Path, "KeyChain.db2");
 
-    //// error checks
-    //if (bad_db2_files.size() >= DB2FilesCount)
-    //{
-    //    TC_LOG_ERROR(LOG_FILTER_GENERAL, "\nIncorrect DataDir value in worldserver.conf or ALL required *.db2 files (%d) not found by path: %sdb2", DB2FilesCount, dataPath.c_str());
-    //    exit(1);
-    //}
-    //else if (!bad_db2_files.empty())
-    //{
-    //    std::string str;
-    //    for (std::list<std::string>::iterator i = bad_db2_files.begin(); i != bad_db2_files.end(); ++i)
-    //        str += *i + "\n";
+    // error checks
+    if (bad_db2_files.size() >= DB2FilesCount)
+    {
+        TC_LOG_ERROR(LOG_FILTER_GENERAL, "\nIncorrect DataDir value in worldserver.conf or ALL required *.db2 files (%d) not found by path: %sdb2", DB2FilesCount, dataPath.c_str());
+        exit(1);
+    }
+    else if (!bad_db2_files.empty())
+    {
+        std::string str;
+        for (std::list<std::string>::iterator i = bad_db2_files.begin(); i != bad_db2_files.end(); ++i)
+            str += *i + "\n";
 
-    //    TC_LOG_ERROR(LOG_FILTER_GENERAL, "\nSome required *.db2 files (%u from %d) not found or not compatible:\n%s", (uint32)bad_db2_files.size(), DB2FilesCount, str.c_str());
-    //    exit(1);
-    //}
+        TC_LOG_ERROR(LOG_FILTER_GENERAL, "\nSome required *.db2 files (%u from %d) not found or not compatible:\n%s", (uint32)bad_db2_files.size(), DB2FilesCount, str.c_str());
+        exit(1);
+    }
 
-    //// Check loaded DB2 files proper version
-    //if (!sItemStore.LookupEntry(83086)             ||       // last item added in 4.3.4 (15595)
-    //    !sItemExtendedCostStore.LookupEntry(3872)  )        // last item extended cost added in 4.3.4 (15595)
-    //{
-    //    TC_LOG_ERROR(LOG_FILTER_GENERAL, "Please extract correct db2 files from client 4.3.4 15595.");
-    //    exit(1);
-    //}
+    // Check loaded DB2 files proper version
+    if (!sItemStore.LookupEntry(100870)             ||       // last item added in 5.3.0 (17128)
+        !sItemExtendedCostStore.LookupEntry(3902)  )        // last item extended cost added in 5.3.0 (17128)
+    {
+        TC_LOG_ERROR(LOG_FILTER_GENERAL, "Please extract correct db2 files from client 4.3.4 15595.");
+        exit(1);
+    }
 
-    TC_LOG_INFO(LOG_FILTER_GENERAL, ">> Initialized %d DB2 data stores.", DB2FilesCount);
+    TC_LOG_ERROR(LOG_FILTER_GENERAL, ">> Initialized %d DB2 data stores.", DB2FilesCount);
 }
 
 DB2StorageBase const* GetDB2Storage(uint32 type)

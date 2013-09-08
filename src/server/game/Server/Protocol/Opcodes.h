@@ -220,7 +220,7 @@ enum Opcodes
     CMSG_GM_NUKE                                      = 0x0000,
     CMSG_GM_REPORT_LAG                                = 0x6726,
     CMSG_GM_SET_SECURITY_GROUP                        = 0x0000,
-    CMSG_GOSSIP_HELLO                                 = 0x4525,
+    CMSG_GOSSIP_HELLO                                 = 0x1414, // 17128
     CMSG_GOSSIP_SELECT_OPTION                         = 0x1341, // 17128
     CMSG_GRANT_LEVEL                                  = 0x6D16,
     CMSG_GROUP_ASSISTANT_LEADER                       = 0x6025,
@@ -284,7 +284,7 @@ enum Opcodes
     CMSG_HEARTH_AND_RESURRECT                         = 0x4B34,
     CMSG_IGNORE_TRADE                                 = 0x7112,
     CMSG_INITIATE_TRADE                               = 0x7916,
-    CMSG_INSPECT                                      = 0x0927,
+    CMSG_INSPECT                                      = 0x1515, // 17128
     CMSG_INSPECT_HONOR_STATS                          = 0x01D6, // 17128
     CMSG_INSTANCE_LOCK_WARNING_RESPONSE               = 0x6234,
     CMSG_ITEM_REFUND                                  = 0x6134,
@@ -348,8 +348,8 @@ enum Opcodes
     CMSG_MESSAGECHAT_GUILD                            = 0x3956,
     CMSG_MESSAGECHAT_OFFICER                          = 0x1946,
     CMSG_MESSAGECHAT_PARTY                            = 0x1D46,
-    CMSG_MESSAGECHAT_RAID                             = 0x9990, // some only mess up giving this frm bottom here
-    CMSG_MESSAGECHAT_RAID_WARNING                     = 0x9991, //
+    CMSG_MESSAGECHAT_RAID                             = 0x9997, // 17128
+    CMSG_MESSAGECHAT_RAID_WARNING                     = 0x9998, 
     CMSG_MESSAGECHAT_SAY                              = 0x016A, // 17128
     CMSG_MESSAGECHAT_WHISPER                          = 0x143A, // 17128
     CMSG_MESSAGECHAT_YELL                             = 0x1333, // 17128
@@ -602,7 +602,7 @@ enum Opcodes
     MSG_MOVE_SET_COLLISION_HEIGHT                     = 0x0000,
     MSG_MOVE_SET_FACING                               = 0x0886, // 17128
     MSG_MOVE_SET_FLIGHT_SPEED_CHEAT                   = 0x0000,
-    MSG_MOVE_SET_PITCH                                = 0x7312,
+    MSG_MOVE_SET_PITCH                                = 0x0C43, // 17128
     MSG_MOVE_SET_RAW_POSITION_ACK                     = 0x0000,
     MSG_MOVE_SET_RUN_BACK_SPEED_CHEAT                 = 0x0000,
     MSG_MOVE_SET_RUN_MODE                             = 0x081F, // 17128
@@ -801,10 +801,10 @@ enum Opcodes
     SMSG_CHAT_IGNORED_ACCOUNT_MUTED                   = 0x02C5, // 17128
     SMSG_CHAT_NOT_IN_PARTY                            = 0x6A14,
     SMSG_CHAT_PLAYER_AMBIGUOUS                        = 0x2F34,
-    SMSG_CHAT_PLAYER_NOT_FOUND                        = 0x2526,
-    SMSG_CHAT_RESTRICTED                              = 0x6536,
-    SMSG_CHAT_SERVER_DISCONNECTED                     = 0x6D34,
-    SMSG_CHAT_SERVER_RECONNECTED                      = 0x6905,
+    SMSG_CHAT_PLAYER_NOT_FOUND                        = 0x14D1, // 17128
+    SMSG_CHAT_RESTRICTED                              = 0x099C, // 17128
+    SMSG_CHAT_SERVER_DISCONNECTED                     = 0x1294, // 17128
+    SMSG_CHAT_SERVER_RECONNECTED                      = 0x04DD, // 17128
     SMSG_CHAT_WRONG_FACTION                           = 0x6724,
     SMSG_CHECK_FOR_BOTS                               = 0x0000,
     SMSG_CLEAR_BOSS_EMOTES                            = 0x1395, // 17128
@@ -835,8 +835,8 @@ enum Opcodes
     SMSG_CORPSE_NOT_IN_INSTANCE                       = 0x2A14,
     SMSG_CORPSE_RECLAIM_DELAY                         = 0x13C9, // 17128
     SMSG_CREATURE_QUERY_RESPONSE                      = 0x06D8, // 17128
-    SMSG_CRITERIA_DELETED                             = 0x2915,
-    SMSG_CRITERIA_UPDATE                              = 0x1109, // 17128
+    SMSG_CRITERIA_DELETED                             = 0x039C, // 17128
+    SMSG_CRITERIA_UPDATE                              = 0x05D4, // 17128
     SMSG_CROSSED_INEBRIATION_THRESHOLD                = 0x2036,
     SMSG_CURRENCY_LOOT_REMOVED                        = 0x1DB4,
     SMSG_CURRENCY_LOOT_RESTORED                       = 0x30A0,
@@ -867,7 +867,7 @@ enum Opcodes
     SMSG_DUMP_RIDE_TICKETS_RESPONSE                   = 0x10D5, // 17128
     SMSG_DURABILITY_DAMAGE_DEATH                      = 0x4C27,
     SMSG_ECHO_PARTY_SQUELCH                           = 0x0814,
-    SMSG_EMOTE                                        = 0x1185, // 17128
+    SMSG_EMOTE                                        = 0x9994, // 17128
     SMSG_ENABLE_BARBER_SHOP                           = 0x2D16,
     SMSG_ENCHANTMENTLOG                               = 0x6035,
     SMSG_ENVIRONMENTALDAMAGELOG                       = 0x6C05,
@@ -1170,7 +1170,7 @@ enum Opcodes
     SMSG_PLAYERBINDERROR                              = 0x6A24,
     SMSG_PLAYERBOUND                                  = 0x12DD, // 17128
     SMSG_PLAYER_DIFFICULTY_CHANGE                     = 0x2217,
-    SMSG_PLAYER_MOVE                                  = 0x79A2,
+    SMSG_PLAYER_MOVE                                  = 0x1109, // 17128
     SMSG_PLAYER_SKINNED                               = 0x0116,
     SMSG_PLAYER_UNK_DEAD_ALIVE                        = 0x0000,
     SMSG_PLAYER_VEHICLE_DATA                          = 0x4115,

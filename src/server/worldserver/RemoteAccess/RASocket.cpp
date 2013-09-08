@@ -1,19 +1,11 @@
 /*
  * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2013 Project Cerberus <http://www.erabattle.ru/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the
- * Free Software Foundation; either version 2 of the License, or (at your
- * option) any later version.
+ * This program is not free software; you can not redistribute it and/or modify it.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
+ * This program is distributed only by <http://www.erabattle.ru/>!
  */
 
 /** \file
@@ -36,26 +28,22 @@ RASocket::RASocket()
     _commandExecuting = false;
 }
 
-RASocket::~RASocket()
-{
-}
-
 int RASocket::open(void *)
 {
-    ACE_INET_Addr remote_addr;
+    ACE_INET_Addr remoteAddress;
 
-    if (peer().get_remote_addr(remote_addr) == -1)
+    if (peer().get_remote_addr(remoteAddress) == -1)
     {
         TC_LOG_ERROR(LOG_FILTER_WORLDSERVER, "RASocket::open: peer().get_remote_addr error is %s", ACE_OS::strerror(errno));
         return -1;
     }
 
-    TC_LOG_INFO(LOG_FILTER_REMOTECOMMAND, "Incoming connection from %s", remote_addr.get_host_addr());
+    TC_LOG_INFO(LOG_FILTER_REMOTECOMMAND, "Incoming connection from %s", remoteAddress.get_host_addr());
 
     return activate();
 }
 
-int RASocket::handle_close(ACE_HANDLE, ACE_Reactor_Mask)
+int RASocket::handle_close(ACE_HANDLE /*handle*/, ACE_Reactor_Mask /*mask*/)
 {
     TC_LOG_INFO(LOG_FILTER_REMOTECOMMAND, "Closing connection");
     peer().close_reader();
@@ -89,9 +77,7 @@ int RASocket::recv_line(ACE_Message_Block& buffer)
         ssize_t n = peer().recv(&byte, sizeof(byte));
 
         if (n < 0)
-        {
             return -1;
-        }
 
         if (n == 0)
         {
@@ -110,8 +96,8 @@ int RASocket::recv_line(ACE_Message_Block& buffer)
             return -1;
     }
 
-    const char null_term = '\0';
-    if (buffer.copy(&null_term, sizeof(null_term)) == -1)
+    const char nullTerm = '\0';
+    if (buffer.copy(&nullTerm, sizeof(nullTerm)) == -1)
         return -1;
 
     return 0;

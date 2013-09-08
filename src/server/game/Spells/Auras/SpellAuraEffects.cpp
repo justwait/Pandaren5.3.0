@@ -1186,6 +1186,15 @@ void AuraEffect::HandleShapeshiftBoosts(Unit* target, bool apply) const
         case FORM_GHOSTWOLF:
             spellId = 67116;
             break;
+        case FORM_SERPENTSTANCE:
+            spellId = 115070;
+            break;
+        case FORM_OXSTANCE:
+            spellId = 115069;
+            break;
+        case FORM_TIGERSTANCE:
+            spellId = 103985;
+            break; 
         case FORM_GHOUL:
         case FORM_AMBIENT:
         case FORM_STEALTH:
@@ -1709,7 +1718,9 @@ void AuraEffect::HandleAuraModShapeshift(AuraApplication const* aurApp, uint8 mo
         case FORM_CREATURECAT:                              // 0x0F
         case FORM_GHOSTWOLF:                                // 0x10
 
-        case FORM_TEST:                                     // 0x14
+        case FORM_SERPENTSTANCE:
+        case FORM_OXSTANCE:
+        case FORM_TIGERSTANCE: 
         case FORM_ZOMBIE:                                   // 0x15
         case FORM_METAMORPHOSIS:                            // 0x16
         case FORM_UNDEAD:                                   // 0x19

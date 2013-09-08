@@ -11413,6 +11413,7 @@ bool Unit::HandleStatModifier(UnitMods unitMod, UnitModifierType modifierType, f
         case UNIT_MOD_RAGE:
         case UNIT_MOD_FOCUS:
         case UNIT_MOD_ENERGY:
+        case UNIT_MOD_CHI:
         case UNIT_MOD_RUNE:
         case UNIT_MOD_RUNIC_POWER:          UpdateMaxPower(GetPowerTypeByAuraGroup(unitMod));          break;
 
@@ -11768,6 +11769,7 @@ int32 Unit::GetCreatePowers(Powers power) const
             return 3;
         case POWER_HEALTH:
             return 0;
+        case POWER_CHI:         return GetTypeId() == TYPEID_PLAYER && ((Player const*)this)->getClass() == CLASS_MONK ? 1000 : 0;
         default:
             break;
     }
@@ -15436,7 +15438,8 @@ void Unit::WriteMovementInfo(WorldPacket& data, Movement::ExtraMovementStatusEle
     bool hasFallData;
     bool hasFallDirection;
     bool hasSplineElevation;
-
+    bool isAlive = false;
+    uint32 counter = 0;
     if (GetTypeId() == TYPEID_PLAYER)
     {
         hasTimestamp = m_movementInfo.time != 0;
@@ -15562,7 +15565,7 @@ void Unit::WriteMovementInfo(WorldPacket& data, Movement::ExtraMovementStatusEle
             break;
         case MSEMovementFlags2:
             if (hasMovementFlags2)
-                data.WriteBits(GetExtraUnitMovementFlags(), 12);
+                data.WriteBits(GetExtraUnitMovementFlags(), 13);
             break;
         case MSETimestamp:
             if (hasTimestamp)
@@ -15641,8 +15644,21 @@ void Unit::WriteMovementInfo(WorldPacket& data, Movement::ExtraMovementStatusEle
             if (hasSplineElevation)
                 data << mi.splineElevation;
             break;
+        case MSEHasCounter:
+            data.WriteBits(0, 22);
+            break;
         case MSECounter:
-            data << m_movementCounter++;
+            for (uint32 b = 0; b < counter; ++b)
+                data << uint32(0); //int32
+            break;
+            //data << m_movementCounter++;
+            //break;
+        case MSEIsAlive:
+            data.WriteBit(isAlive);
+            break;
+        case MSEAlive:
+            if (isAlive)
+                data << mi.time;
             break;
         case MSEZeroBit:
             data.WriteBit(0);
@@ -16351,9 +16367,9 @@ void Unit::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* target)
     if (GetOwnerGUID() == target->GetGUID())
         visibleFlag |= UF_FLAG_OWNER;
 
-    if (HasFlag(OBJECT_DYNAMIC_FLAGS, UNIT_DYNFLAG_SPECIALINFO))
+    /*if (HasFlag(OBJECT_DYNAMIC_FLAGS, UNIT_DYNFLAG_SPECIALINFO))
         if (HasAuraTypeWithCaster(SPELL_AURA_EMPATHY, target->GetGUID()))
-            visibleFlag |= UF_FLAG_SPECIAL_INFO;
+            visibleFlag |= UF_FLAG_SPECIAL_INFO;*/
 
     if (plr && plr->IsInSameRaidWith(target))
         visibleFlag |= UF_FLAG_PARTY_MEMBER;
@@ -16362,7 +16378,7 @@ void Unit::BuildValuesUpdate(uint8 updateType, ByteBuffer* data, Player* target)
     for (uint16 index = 0; index < valCount; ++index)
     {
         if (_fieldNotifyFlags & flags[index] ||
-            ((flags[index] & visibleFlag) & UF_FLAG_SPECIAL_INFO) ||
+            ((flags[index] & visibleFlag) /*& UF_FLAG_SPECIAL_INFO*/) ||
             ((updateType == UPDATETYPE_VALUES ? _changesMask.GetBit(index) : m_uint32Values[index]) && (flags[index] & visibleFlag)) ||
             (index == UNIT_FIELD_AURASTATE && HasFlag(UNIT_FIELD_AURASTATE, PER_CASTER_AURA_STATE_MASK)))
         {

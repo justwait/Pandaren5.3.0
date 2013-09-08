@@ -54,6 +54,7 @@ struct ItemSparseEntry
     uint32     Flags;                                        // 2
     uint32     Flags2;                                       // 3
     float      Unk430_1;
+	uint32	   Unk530;
     float      Unk430_2;
     uint32     BuyCount;
     uint32     BuyPrice;                                     // 4
