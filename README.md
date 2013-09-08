@@ -1,4 +1,4 @@
-Pandaren5.3.0 NO LONGER SUPPORTED I SWITCH TO PRIVATE MODE
+Pandaren5.3.0 
 =============
 
 World of Warcraft Mists of Pandaria emulator for 5.3.0 (17128)
@@ -8,18 +8,6 @@ READ ME :
 PATCHED CLIENT(x86)Windows - http://www.sendspace.com/file/qwrgly	
 DBC - http://www.sendspace.com/file/9euiv9	
 MAPS - http://www.sendspace.com/file/5miivl	
-
-
-TO DO:
-Fix "self" UPDATE_OBJECT for player. That's the problem why full login doesn't work.
-
-For those who fork it.
-1. There are 2 updates for "auth" that needs to be executed (don't forget about them).
-2. I hope people will push something not only pull and wait for other.
-
-
-
-
 
 
 = TrinityCore -- General information =
